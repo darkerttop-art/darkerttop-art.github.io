@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MarketHub — Управление качеством и конкурентоспособностью</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0D1B2A;
+    --navy2: #1B2E42;
+    --orange: #FF6B35;
+    --orange-light: #FF8C5A;
+    --teal: #00B4D8;
+    --green: #06D6A0;
+    --yellow: #FFD166;
+    --red: #EF476F;
+    --bg: #F0F4F8;
+    --card: #FFFFFF;
+    --text: #1A2332;
+    --muted: #5A7082;
+    --border: #D6E4EF;
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+font-family: ‘IBM Plex Sans’, sans-serif;
+background: var(–bg);
+color: var(–text);
+min-height: 100vh;
+}
+
+/* ── NAV ── */
+nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+background: var(–navy);
+display: flex; align-items: center; gap: 0;
+padding: 0 2rem;
+height: 56px;
+box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+overflow-x: auto;
+}
+.nav-logo {
+font-family: ‘Playfair Display’, serif;
+color: var(–orange);
+font-size: 1.15rem;
+font-weight: 700;
+white-space: nowrap;
+margin-right: 2rem;
+padding-right: 2rem;
+border-right: 1px solid rgba(255,255,255,0.15);
+}
+nav a {
+color: rgba(255,255,255,0.65);
+text-decoration: none;
+font-size: 0.78rem;
+font-weight: 500;
+letter-spacing: 0.04em;
+padding: 0.4rem 0.9rem;
+border-radius: 4px;
+white-space: nowrap;
+transition: all 0.2s;
+}
+nav a:hover { color: #fff; background: rgba(255,107,53,0.2); }
+nav a.active { color: var(–orange); background: rgba(255,107,53,0.1); }
+
+/* ── LAYOUT ── */
+main { padding-top: 56px; }
+
+section {
+min-height: 100vh;
+padding: 3.5rem 3rem 4rem;
+border-bottom: 1px solid var(–border);
+}
+
+.section-header {
+display: flex; align-items: baseline; gap: 1rem;
+margin-bottom: 2.5rem;
+}
+.section-num {
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.75rem;
+color: var(–orange);
+background: rgba(255,107,53,0.1);
+padding: 0.2rem 0.6rem;
+border-radius: 4px;
+font-weight: 500;
+letter-spacing: 0.08em;
+flex-shrink: 0;
+}
+h1 { font-family: ‘Playfair Display’, serif; font-size: 2rem; color: var(–navy); }
+h2 { font-family: ‘Playfair Display’, serif; font-size: 1.5rem; color: var(–navy); }
+h3 { font-family: ‘IBM Plex Sans’, sans-serif; font-size: 1.05rem; font-weight: 600; color: var(–navy2); margin-bottom: 0.75rem; }
+
+/* ── HERO ── */
+#hero {
+background: linear-gradient(135deg, var(–navy) 0%, var(–navy2) 60%, #1a3a5c 100%);
+color: white;
+display: flex; flex-direction: column; justify-content: center;
+padding: 5rem 3rem;
+position: relative; overflow: hidden;
+}
+#hero::before {
+content: ‘MH’;
+position: absolute; right: -2rem; top: 50%; transform: translateY(-50%);
+font-family: ‘Playfair Display’, serif;
+font-size: 20rem;
+color: rgba(255,255,255,0.03);
+line-height: 1;
+pointer-events: none;
+}
+#hero .tag {
+font-size: 0.72rem;
+letter-spacing: 0.12em;
+color: var(–orange);
+font-weight: 600;
+text-transform: uppercase;
+margin-bottom: 1rem;
+font-family: ‘IBM Plex Mono’, monospace;
+}
+#hero h1 {
+color: white;
+font-size: 3.2rem;
+line-height: 1.1;
+margin-bottom: 1.2rem;
+}
+#hero h1 span { color: var(–orange); }
+.hero-sub { color: rgba(255,255,255,0.65); font-size: 1rem; max-width: 560px; line-height: 1.7; margin-bottom: 2.5rem; }
+.hero-chips { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.chip {
+padding: 0.35rem 0.9rem;
+border-radius: 20px;
+font-size: 0.78rem;
+font-weight: 500;
+border: 1px solid;
+}
+.chip-orange { border-color: var(–orange); color: var(–orange); }
+.chip-teal { border-color: var(–teal); color: var(–teal); }
+.chip-green { border-color: var(–green); color: var(–green); }
+
+/* ── CARDS ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+
+.card {
+background: var(–card);
+border-radius: 12px;
+padding: 1.6rem;
+border: 1px solid var(–border);
+box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.card-accent { border-left: 4px solid var(–orange); }
+.card-teal { border-left: 4px solid var(–teal); }
+.card-green { border-left: 4px solid var(–green); }
+.card-yellow { border-left: 4px solid var(–yellow); }
+
+.metric-big {
+font-family: ‘Playfair Display’, serif;
+font-size: 2.4rem;
+color: var(–orange);
+font-weight: 700;
+margin-bottom: 0.25rem;
+}
+.metric-label { font-size: 0.82rem; color: var(–muted); }
+
+/* ── TABLES ── */
+.table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(–border); box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+table { width: 100%; border-collapse: collapse; font-size: 0.82rem; background: white; }
+thead tr { background: var(–navy); }
+thead th {
+color: white;
+padding: 0.85rem 1rem;
+text-align: left;
+font-weight: 500;
+font-size: 0.78rem;
+letter-spacing: 0.04em;
+white-space: nowrap;
+}
+tbody tr { border-bottom: 1px solid var(–border); transition: background 0.15s; }
+tbody tr:hover { background: #F8FAFC; }
+tbody td { padding: 0.75rem 1rem; vertical-align: top; line-height: 1.5; }
+tbody tr:last-child { border-bottom: none; }
+.td-num { font-family: ‘IBM Plex Mono’, monospace; font-size: 0.75rem; color: var(–muted); }
+
+/* badge */
+.badge {
+display: inline-block; padding: 0.2rem 0.55rem;
+border-radius: 12px; font-size: 0.72rem; font-weight: 600;
+}
+.badge-green { background: rgba(6,214,160,0.15); color: #05a87a; }
+.badge-red { background: rgba(239,71,111,0.15); color: #c73660; }
+.badge-yellow { background: rgba(255,209,102,0.2); color: #b8850a; }
+.badge-orange { background: rgba(255,107,53,0.15); color: #d44a14; }
+.badge-blue { background: rgba(0,180,216,0.15); color: #007a99; }
+.badge-gray { background: rgba(90,112,130,0.12); color: #4a6070; }
+
+/* RACI */
+.raci-r { background: rgba(255,107,53,0.18); color: #c44a14; font-weight:700; text-align:center; }
+.raci-a { background: rgba(239,71,111,0.18); color: #b03058; font-weight:700; text-align:center; }
+.raci-c { background: rgba(0,180,216,0.15); color: #006f87; font-weight:700; text-align:center; }
+.raci-i { background: rgba(6,214,160,0.15); color: #04866d; font-weight:700; text-align:center; }
+.raci-dash { color: var(–border); text-align:center; }
+
+/* ── BSC ── */
+.bsc-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 1.2rem;
+margin-top: 1.5rem;
+}
+.bsc-card {
+background: white;
+border-radius: 10px;
+padding: 1.4rem;
+border: 1px solid var(–border);
+position: relative;
+overflow: hidden;
+}
+.bsc-card::before {
+content: ‘’;
+position: absolute; top: 0; left: 0; right: 0; height: 4px;
+}
+.bsc-fin::before { background: var(–green); }
+.bsc-client::before { background: var(–teal); }
+.bsc-proc::before { background: var(–orange); }
+.bsc-pot::before { background: var(–yellow); }
+.bsc-title {
+font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
+text-transform: uppercase; margin-bottom: 1rem;
+}
+.bsc-fin .bsc-title { color: var(–green); }
+.bsc-client .bsc-title { color: var(–teal); }
+.bsc-proc .bsc-title { color: var(–orange); }
+.bsc-pot .bsc-title { color: #b8850a; }
+.bsc-row { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(–border); }
+.bsc-row:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+.bsc-goal { font-size: 0.83rem; font-weight: 500; color: var(–navy); flex: 1; }
+.bsc-metric { font-size: 0.73rem; color: var(–muted); margin-top: 0.2rem; }
+.bsc-arrow {
+text-align: center; padding: 1.5rem;
+font-size: 0.78rem; color: var(–muted);
+background: #F8FAFC; border-radius: 10px; border: 1px dashed var(–border);
+margin-top: 1rem; line-height: 2;
+}
+.bsc-arrow strong { color: var(–navy); }
+
+/* ── ORG CHART ── */
+.org-wrap { overflow-x: auto; padding: 1rem 0; }
+.org-tree {
+display: flex; flex-direction: column; align-items: center;
+gap: 0; min-width: 900px;
+}
+.org-level { display: flex; justify-content: center; gap: 1rem; margin-bottom: 0; }
+.org-node {
+background: white;
+border: 2px solid var(–border);
+border-radius: 8px;
+padding: 0.6rem 1rem;
+font-size: 0.78rem;
+font-weight: 500;
+color: var(–navy);
+text-align: center;
+min-width: 130px;
+position: relative;
+box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.org-node.top {
+background: var(–navy);
+color: white;
+border-color: var(–navy);
+font-size: 0.85rem;
+font-weight: 600;
+min-width: 200px;
+}
+.org-node.dir {
+border-color: var(–orange);
+background: rgba(255,107,53,0.05);
+}
+.org-node.sub { border-color: var(–teal); background: rgba(0,180,216,0.05); font-size: 0.72rem; }
+.org-connector-v {
+width: 2px; height: 30px; background: var(–border);
+margin: 0 auto;
+}
+.org-connector-h {
+display: flex; align-items: flex-start; justify-content: center;
+position: relative; margin-bottom: 0;
+}
+.org-connector-h::before {
+content: ‘’;
+position: absolute; top: 0; left: 10%; right: 10%; height: 2px;
+background: var(–border);
+}
+.org-branch {
+display: flex; flex-direction: column; align-items: center;
+gap: 0;
+}
+.org-branch-top { width: 2px; height: 20px; background: var(–border); }
+.org-sub-level { display: flex; gap: 0.7rem; margin-top: 0; }
+
+/* ── PROCESS DIAGRAM ── */
+.process-diagram {
+background: white;
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 2rem;
+overflow-x: auto;
+}
+.proc-section { margin-bottom: 2rem; }
+.proc-label {
+font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em;
+text-transform: uppercase; margin-bottom: 1rem;
+padding: 0.3rem 0.8rem; border-radius: 4px; display: inline-block;
+}
+.proc-label-mgmt { background: rgba(255,209,102,0.2); color: #8a6200; }
+.proc-label-main { background: rgba(255,107,53,0.12); color: #c44a14; }
+.proc-label-sup { background: rgba(0,180,216,0.12); color: #006f87; }
+.proc-row { display: flex; align-items: stretch; gap: 0; flex-wrap: nowrap; min-width: max-content; }
+.proc-box {
+background: var(–navy2);
+color: white;
+border-radius: 8px;
+padding: 0.75rem 1.1rem;
+font-size: 0.78rem;
+font-weight: 500;
+text-align: center;
+min-width: 130px;
+display: flex; flex-direction: column; justify-content: center; align-items: center;
+gap: 0.3rem;
+position: relative;
+}
+.proc-box.mgmt { background: #8a6200; }
+.proc-box.main { background: var(–navy); }
+.proc-box.sup { background: #006f87; }
+.proc-io {
+font-size: 0.62rem;
+color: rgba(255,255,255,0.6);
+}
+.proc-arrow {
+display: flex; align-items: center; padding: 0 0.3rem;
+color: var(–muted); font-size: 1.2rem;
+}
+.proc-arrow-label {
+display: flex; flex-direction: column; align-items: center;
+padding: 0 0.4rem; min-width: 70px;
+}
+.proc-arrow-label .arr { font-size: 1.3rem; color: var(–orange); }
+.proc-arrow-label .lbl { font-size: 0.6rem; color: var(–muted); text-align: center; line-height: 1.3; }
+.proc-reg { font-size: 0.6rem; color: rgba(255,255,255,0.5); margin-top: 0.4rem; font-style: italic; }
+.io-row {
+display: flex; gap: 1rem; margin-top: 1rem; margin-bottom: 0.5rem;
+}
+.io-box {
+padding: 0.5rem 1rem;
+border-radius: 6px;
+font-size: 0.75rem;
+display: flex; align-items: center; gap: 0.4rem;
+}
+.io-in { background: rgba(6,214,160,0.1); border: 1px solid rgba(6,214,160,0.3); color: #05a87a; }
+.io-out { background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.3); color: #d44a14; }
+
+/* ── FLOWCHART ── */
+.flowchart-wrap { overflow: auto; }
+svg.flow { font-family: ‘IBM Plex Sans’, sans-serif; }
+
+/* ── RISK ── */
+.risk-high { background: rgba(239,71,111,0.08); }
+.risk-med { background: rgba(255,209,102,0.1); }
+.risk-low { background: rgba(6,214,160,0.08); }
+
+/* ── ISO ── */
+.iso-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.iso-card {
+background: white; border-radius: 10px; padding: 1.4rem;
+border: 1px solid var(–border);
+}
+.iso-num {
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 1.5rem; font-weight: 500; color: var(–orange);
+margin-bottom: 0.5rem;
+}
+
+/* ── PROCESS MAP ── */
+.pmap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.pmap-cell {
+padding: 1rem 1.2rem;
+border: 1px solid var(–border);
+}
+.pmap-cell:nth-child(odd) { background: #F8FAFC; }
+.pmap-key { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(–muted); margin-bottom: 0.35rem; }
+.pmap-val { font-size: 0.85rem; color: var(–navy); line-height: 1.6; }
+
+/* ── PROJECTS ── */
+.projects-row { display: flex; gap: 1rem; margin-top: 1.5rem; }
+.proj-card {
+flex: 1; background: white; border-radius: 10px;
+padding: 1.2rem; border: 1px solid var(–border);
+position: relative; overflow: hidden;
+}
+.proj-card::after {
+content: attr(data-n);
+position: absolute; right: 0.5rem; top: 0.3rem;
+font-family: ‘Playfair Display’, serif;
+font-size: 3rem; color: rgba(0,0,0,0.04); font-weight: 700;
+line-height: 1;
+}
+.proj-num { font-family: ‘IBM Plex Mono’, monospace; font-size: 0.68rem; color: var(–orange); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+.proj-title { font-weight: 600; font-size: 0.88rem; color: var(–navy); margin-bottom: 0.5rem; }
+.proj-desc { font-size: 0.78rem; color: var(–muted); line-height: 1.5; }
+
+/* ── UTIL ── */
+.divider { height: 1px; background: var(–border); margin: 2rem 0; }
+.mb1 { margin-bottom: 1rem; }
+.mb2 { margin-bottom: 2rem; }
+.mt2 { margin-top: 2rem; }
+.text-muted { color: var(–muted); font-size: 0.82rem; }
+.note {
+background: rgba(255,107,53,0.07);
+border-left: 3px solid var(–orange);
+padding: 0.75rem 1rem;
+border-radius: 0 6px 6px 0;
+font-size: 0.82rem;
+color: var(–navy2);
+margin-bottom: 1.5rem;
+}
+.legend { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
+.legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(–muted); }
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+@media print {
+nav { display: none; }
+main { padding-top: 0; }
+section { page-break-inside: avoid; }
+}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">MarketHub</div>
+  <a href="#hero" class="active">Компания</a>
+  <a href="#bsc">ССП</a>
+  <a href="#org">Орг. структура</a>
+  <a href="#stakeholders">Стейкхолдеры</a>
+  <a href="#processes">Процессы</a>
+  <a href="#raci">RACI</a>
+  <a href="#risks">Риски</a>
+  <a href="#pmap">Карта процесса</a>
+  <a href="#flow">Алгоритм</a>
+  <a href="#iso">ISO 9001</a>
+</nav>
+
+<main>
+
+<!-- ══════════ HERO ══════════ -->
+
+<section id="hero">
+  <div class="tag">Управление качеством и конкурентоспособностью · Контрольная точка 2</div>
+  <h1>Market<span>Hub</span><br>Маркетплейс</h1>
+  <p class="hero-sub">Онлайн-платформа, объединяющая продавцов и покупателей для удобного, безопасного и выгодного шопинга. Сфера деятельности: электронная коммерция (маркетплейс).</p>
+  <div class="hero-chips">
+    <div class="chip chip-orange">Миссия: соединять продавцов и покупателей</div>
+    <div class="chip chip-teal">Видение: маркетплейс №1 в сегменте к 2027</div>
+    <div class="chip chip-green">50 000+ продавцов · 2 млн SKU</div>
+  </div>
+</section>
+
+<!-- ══════════ МИССИЯ / ВИДЕНИЕ ══════════ -->
+
+<section id="mission" style="background:white;">
+  <div class="section-header">
+    <div class="section-num">ЧАСТЬ 1.1</div>
+    <h2>Миссия, Видение и Ключевые метрики</h2>
+  </div>
+
+  <div class="grid-2 mb2">
+    <div class="card card-accent">
+      <h3>Миссия</h3>
+      <p style="font-size:1rem; line-height:1.7; color:var(--navy); font-style:italic;">
+        «Объединять продавцов и покупателей на единой технологичной платформе, обеспечивая удобство, безопасность и выгоду каждой сделки — для каждого, каждый день.»
+      </p>
+    </div>
+    <div class="card card-teal">
+      <h3>Видение</h3>
+      <p style="font-size:1rem; line-height:1.7; color:var(--navy); font-style:italic;">
+        «Стать маркетплейсом №1 в своём сегменте за счёт передовых технологий, доверия пользователей и глубокого партнёрства с 50 000+ продавцами к 2027 году.»
+      </p>
+    </div>
+  </div>
+
+  <div class="grid-4">
+    <div class="card">
+      <div class="metric-big">30%</div>
+      <div class="metric-label">Рост GMV — финансовая цель</div>
+    </div>
+    <div class="card">
+      <div class="metric-big" style="color:var(--teal);">NPS 72</div>
+      <div class="metric-label">Лояльность покупателей</div>
+    </div>
+    <div class="card">
+      <div class="metric-big" style="color:var(--green);">≤15 мин</div>
+      <div class="metric-label">Время обработки заказа</div>
+    </div>
+    <div class="card">
+      <div class="metric-big" style="color:var(--yellow);">85%</div>
+      <div class="metric-label">Сотрудников с повышением квалификации</div>
+    </div>
+  </div>
+
+  <div class="projects-row mt2">
+    <div class="proj-card" data-n="01">
+      <div class="proj-num">ПРОЕКТ 01</div>
+      <div class="proj-title">Масштабирование продавцов</div>
+      <div class="proj-desc">Привлечение новых селлеров, онбординг, развитие инструментов управления магазином.</div>
+    </div>
+    <div class="proj-card" data-n="02">
+      <div class="proj-num">ПРОЕКТ 02</div>
+      <div class="proj-title">Логистика и фулфилмент</div>
+      <div class="proj-desc">Оптимизация складской логистики, партнёрства с курьерскими службами, сокращение сроков доставки.</div>
+    </div>
+    <div class="proj-card" data-n="03">
+      <div class="proj-num">ПРОЕКТ 03</div>
+      <div class="proj-title">Качество и доверие платформы</div>
+      <div class="proj-desc">Верификация продавцов, система отзывов, защита покупателей, борьба с фродом.</div>
+    </div>
+    <div class="proj-card" data-n="04">
+      <div class="proj-num">ПРОЕКТ 04</div>
+      <div class="proj-title">Цифровизация и аналитика</div>
+      <div class="proj-desc">AI-рекомендации, Data Platform, автоматизация операций, персонализация.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ССП ══════════ -->
+
+<section id="bsc">
+  <div class="section-header">
+    <div class="section-num">ЧАСТЬ 1.1 — ССП</div>
+    <h2>Сбалансированная система показателей</h2>
+  </div>
+
+  <div class="bsc-grid">
+    <div class="bsc-card bsc-fin">
+      <div class="bsc-title">💰 Финансы</div>
+      <div class="bsc-row">
+        <div>
+          <div class="bsc-goal">Увеличить GMV (валовой оборот) на 30% г/г</div>
+          <div class="bsc-metric">Метрика: GMV, млрд руб. · Проект: Масштабирование продавцов</div>
+        </div>
+      </div>
+      <div class="bsc-row">
+        <div>
+          <div class="bsc-goal">Повысить комиссионный доход платформы</div>
+          <div class="bsc-metric">Метрика: Take Rate, % · Проект: Цифровизация и аналитика</div>
+        </div>
+      </div>
+      <div class="bsc-row">
+        <div>
+          <div class="bsc-goal">Снизить операционные расходы на 10%</div>
+          <div class="bsc-metric">Метрика: Cost-to-Revenue ratio · Проект: Логистика и фулфилмент</div>
+        </div>
+      </div>
+    </div>
+
+```
+<div class="bsc-card bsc-client">
+  <div class="bsc-title">👥 Рынок / Клиент</div>
+  <div class="bsc-row">
+    <div>
+      <div class="bsc-goal">Повысить лояльность покупателей</div>
+      <div class="bsc-metric">Метрика: NPS ≥ 72, Retention Rate ≥ 65% · Проект: Качество и доверие</div>
+    </div>
+  </div>
+  <div class="bsc-row">
+    <div>
+      <div class="bsc-goal">Привлечь новых продавцов на платформу</div>
+      <div class="bsc-metric">Метрика: Кол-во активных продавцов, тыс. · Проект: Масштабирование</div>
+    </div>
+  </div>
+  <div class="bsc-row">
+    <div>
+      <div class="bsc-goal">Снизить число жалоб и возвратов</div>
+      <div class="bsc-metric">Метрика: % возвратов, Churn rate · Проект: Качество и доверие</div>
+    </div>
+  </div>
+</div>
+
+<div class="bsc-card bsc-proc">
+  <div class="bsc-title">⚙️ Внутренние процессы</div>
+  <div class="bsc-row">
+    <div>
+      <div class="bsc-goal">Ускорить обработку заказов</div>
+      <div class="bsc-metric">Метрика: Время обработки ≤ 15 мин · Проект: Логистика</div>
+    </div>
+  </div>
+  <div class="bsc-row">
+    <div>
+      <div class="bsc-goal">Обеспечить uptime платформы ≥ 99.9%</div>
+      <div class="bsc-metric">Метрика: SLA / Availability · Проект: Цифровизация</div>
+    </div>
+  </div>
+  <div class="bsc-row">
+    <div>
+      <div class="bsc-goal">Внедрить автоматизацию модерации товаров</div>
+      <div class="bsc-metric">Метрика: % автоматически проверенных карточек · Проект: Цифровизация</div>
+    </div>
+  </div>
+</div>
+
+<div class="bsc-card bsc-pot">
+  <div class="bsc-title">🌱 Потенциал / Обучение</div>
+  <div class="bsc-row">
+    <div>
+      <div class="bsc-goal">Развить цифровые компетенции сотрудников</div>
+      <div class="bsc-metric">Метрика: % прошедших обучение ≥ 85% · Проект: Цифровизация</div>
+    </div>
+  </div>
+  <div class="bsc-row">
+    <div>
+      <div class="bsc-goal">Снизить текучесть кадров</div>
+      <div class="bsc-metric">Метрика: Turnover ≤ 12% · Проект: Масштабирование</div>
+    </div>
+  </div>
+  <div class="bsc-row">
+    <div>
+      <div class="bsc-goal">Повысить вовлечённость персонала</div>
+      <div class="bsc-metric">Метрика: eNPS ≥ 55 · Все проекты</div>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <div class="bsc-arrow mt2">
+    <strong>Логическая взаимосвязь целей ССП:</strong><br>
+    🌱 Вовлечённый персонал (Потенциал)
+    &nbsp;→&nbsp; ⚙️ Отлаженные процессы (Процессы)
+    &nbsp;→&nbsp; 👥 Довольные клиенты и продавцы (Рынок)
+    &nbsp;→&nbsp; 💰 Рост прибыли и GMV (Финансы)
+  </div>
+</section>
+
+<!-- ══════════ ОРГ. СТРУКТУРА ══════════ -->
+
+<section id="org" style="background:white;">
+  <div class="section-header">
+    <div class="section-num">ЧАСТЬ 1.1</div>
+    <h2>Организационная структура</h2>
+  </div>
+
+  <div class="org-wrap">
+    <div class="org-tree">
+      <!-- Level 0 -->
+      <div class="org-level">
+        <div class="org-node top">Генеральный директор (CEO)</div>
+      </div>
+      <div class="org-connector-v"></div>
+
+```
+  <!-- Level 1 Directors -->
+  <div style="position:relative; width:900px;">
+    <div style="position:absolute; top:0; left:50%; height:2px; background:var(--border); transform:translateX(-50%); width:80%;"></div>
+  </div>
+  <div class="org-level" style="margin-top:2px; width:900px;">
+    <div class="org-branch" style="flex:1; align-items:center;">
+      <div class="org-branch-top"></div>
+      <div class="org-node dir">Коммерческий<br>директор (CCO)</div>
+    </div>
+    <div class="org-branch" style="flex:1; align-items:center;">
+      <div class="org-branch-top"></div>
+      <div class="org-node dir">Технический<br>директор (CTO)</div>
+    </div>
+    <div class="org-branch" style="flex:1; align-items:center;">
+      <div class="org-branch-top"></div>
+      <div class="org-node dir">Директор по<br>логистике (COO)</div>
+    </div>
+    <div class="org-branch" style="flex:1; align-items:center;">
+      <div class="org-branch-top"></div>
+      <div class="org-node dir">HR-директор</div>
+    </div>
+    <div class="org-branch" style="flex:1; align-items:center;">
+      <div class="org-branch-top"></div>
+      <div class="org-node dir">Финансовый<br>директор (CFO)</div>
+    </div>
+    <div class="org-branch" style="flex:1; align-items:center;">
+      <div class="org-branch-top"></div>
+      <div class="org-node dir">Директор по<br>качеству (CQO)</div>
+    </div>
+  </div>
+
+  <div style="height:20px; display:flex; width:900px; justify-content:space-around;">
+    <div style="width:2px; background:var(--border);"></div>
+    <div style="width:2px; background:var(--border);"></div>
+    <div style="width:2px; background:var(--border);"></div>
+    <div style="width:2px; background:var(--border);"></div>
+    <div style="width:2px; background:var(--border);"></div>
+    <div style="width:2px; background:var(--border);"></div>
+  </div>
+
+  <!-- Level 2 Sub -->
+  <div class="org-level" style="width:900px; align-items:flex-start;">
+    <div class="org-branch" style="flex:1; align-items:center;">
+      <div class="org-sub-level" style="flex-direction:column; gap:0.5rem;">
+        <div class="org-node sub">Отдел продаж</div>
+        <div class="org-node sub">Менеджер партнёров</div>
+        <div class="org-node sub">Маркетинг</div>
+      </div>
+    </div>
+    <div class="org-branch" style="flex:1; align-items:center;">
+      <div class="org-sub-level" style="flex-direction:column; gap:0.5rem;">
+        <div class="org-node sub">Backend-команда</div>
+        <div class="org-node sub">Frontend-команда</div>
+        <div class="org-node sub">Data & AI отдел</div>
+      </div>
+    </div>
+    <div class="org-branch" style="flex:1; align-items:center;">
+      <div class="org-sub-level" style="flex-direction:column; gap:0.5rem;">
+        <div class="org-node sub">Складской отдел</div>
+        <div class="org-node sub">Курьерская служба</div>
+        <div class="org-node sub">Служба поддержки</div>
+      </div>
+    </div>
+    <div class="org-branch" style="flex:1; align-items:center;">
+      <div class="org-sub-level" style="flex-direction:column; gap:0.5rem;">
+        <div class="org-node sub">Рекрутинг</div>
+        <div class="org-node sub">Обучение и развитие</div>
+      </div>
+    </div>
+    <div class="org-branch" style="flex:1; align-items:center;">
+      <div class="org-sub-level" style="flex-direction:column; gap:0.5rem;">
+        <div class="org-node sub">Бухгалтерия</div>
+        <div class="org-node sub">Планово-эк. отдел</div>
+      </div>
+    </div>
+    <div class="org-branch" style="flex:1; align-items:center;">
+      <div class="org-sub-level" style="flex-direction:column; gap:0.5rem;">
+        <div class="org-node sub">Отдел контроля</div>
+        <div class="org-node sub">Юридический отдел</div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <p class="text-muted mt2">Линейно-функциональная организационная структура. Управление осуществляется через вертикаль CEO → директора направлений → функциональные отделы.</p>
+</section>
+
+<!-- ══════════ СТЕЙКХОЛДЕРЫ ══════════ -->
+
+<section id="stakeholders">
+  <div class="section-header">
+    <div class="section-num">ЧАСТЬ 1.2</div>
+    <h2>Матрица заинтересованных сторон</h2>
+  </div>
+
+  <div class="note">Матрица содержит 12 стейкхолдеров. Уровень заинтересованности: от −5 (противники) до +5 (активные сторонники). Власть: от 0 (нет влияния) до 5 (максимальное влияние).</div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Заинтересованная сторона</th>
+          <th>Заинтересованность<br>−5…+5</th>
+          <th>Власть<br>0…5</th>
+          <th>Основные интересы</th>
+          <th>Формат взаимодействия</th>
+          <th>Периодичность</th>
+          <th>Ответственный</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-num">01</td>
+          <td><strong>Продавцы (Селлеры)</strong></td>
+          <td><span class="badge badge-green">+5</span></td>
+          <td><span class="badge badge-orange">4</span></td>
+          <td>Объём продаж, низкие комиссии, аналитика, инструменты продвижения</td>
+          <td>Личный кабинет, вебинары, email-рассылки, форум продавцов</td>
+          <td>Еженедельно</td>
+          <td>Менеджер по партнёрам</td>
+        </tr>
+        <tr>
+          <td class="td-num">02</td>
+          <td><strong>Покупатели</strong></td>
+          <td><span class="badge badge-green">+5</span></td>
+          <td><span class="badge badge-yellow">3</span></td>
+          <td>Цена, качество товара, скорость доставки, удобство возврата</td>
+          <td>Служба поддержки, система отзывов, push-уведомления, чат-бот</td>
+          <td>Постоянно</td>
+          <td>Служба поддержки клиентов</td>
+        </tr>
+        <tr>
+          <td class="td-num">03</td>
+          <td><strong>Инвесторы</strong></td>
+          <td><span class="badge badge-green">+4</span></td>
+          <td><span class="badge badge-red">5</span></td>
+          <td>Прибыльность, рост GMV, капитализация, прозрачная отчётность</td>
+          <td>Квартальные отчёты, investor day, индивидуальные встречи</td>
+          <td>Ежеквартально</td>
+          <td>CEO / CFO</td>
+        </tr>
+        <tr>
+          <td class="td-num">04</td>
+          <td><strong>Сотрудники компании</strong></td>
+          <td><span class="badge badge-green">+3</span></td>
+          <td><span class="badge badge-blue">2</span></td>
+          <td>Конкурентная зарплата, карьерный рост, комфортные условия труда</td>
+          <td>Внутренние собрания, корпоративный портал, HR-анкетирование</td>
+          <td>Ежемесячно</td>
+          <td>HR-директор</td>
+        </tr>
+        <tr>
+          <td class="td-num">05</td>
+          <td><strong>Логистические партнёры</strong></td>
+          <td><span class="badge badge-green">+4</span></td>
+          <td><span class="badge badge-yellow">3</span></td>
+          <td>Объём заказов, выгодные тарифы, чёткие маршруты, стабильность сотрудничества</td>
+          <td>Контрактные переговоры, операционные совещания, SLA-отчёты</td>
+          <td>Ежемесячно</td>
+          <td>Директор по логистике</td>
+        </tr>
+        <tr>
+          <td class="td-num">06</td>
+          <td><strong>Платёжные системы</strong></td>
+          <td><span class="badge badge-green">+3</span></td>
+          <td><span class="badge badge-yellow">3</span></td>
+          <td>Комиссионный доход, стабильность транзакций, соответствие требованиям PCI DSS</td>
+          <td>API-интеграции, технические совещания, контроль SLA</td>
+          <td>Ежеквартально</td>
+          <td>CTO / CFO</td>
+        </tr>
+        <tr>
+          <td class="td-num">07</td>
+          <td><strong>Регуляторы (ФАС, ФНС, Роспотребнадзор)</strong></td>
+          <td><span class="badge badge-gray">−1</span></td>
+          <td><span class="badge badge-red">5</span></td>
+          <td>Соблюдение антимонопольного законодательства, налоговая отчётность, защита прав потребителей</td>
+          <td>Обязательная отчётность, проверки, ответы на запросы</td>
+          <td>По требованию</td>
+          <td>Юридический отдел / CFO</td>
+        </tr>
+        <tr>
+          <td class="td-num">08</td>
+          <td><strong>IT-подрядчики и разработчики</strong></td>
+          <td><span class="badge badge-green">+3</span></td>
+          <td><span class="badge badge-blue">2</span></td>
+          <td>Стабильность заказов, своевременная оплата, чёткое техническое задание</td>
+          <td>Еженедельные спринт-митинги, техзадания, code review</td>
+          <td>Еженедельно</td>
+          <td>CTO</td>
+        </tr>
+        <tr>
+          <td class="td-num">09</td>
+          <td><strong>Маркетинговые агентства</strong></td>
+          <td><span class="badge badge-green">+3</span></td>
+          <td><span class="badge badge-blue">1</span></td>
+          <td>Рекламный бюджет, достижимые KPI, долгосрочное сотрудничество</td>
+          <td>Брифы, ежемесячные отчёты по KPI, стратегические сессии</td>
+          <td>Ежемесячно</td>
+          <td>Директор по маркетингу</td>
+        </tr>
+        <tr>
+          <td class="td-num">10</td>
+          <td><strong>Конкуренты (Ozon, WB, Яндекс Маркет)</strong></td>
+          <td><span class="badge badge-gray">−2</span></td>
+          <td><span class="badge badge-yellow">3</span></td>
+          <td>Захват доли рынка, переманивание продавцов и покупателей</td>
+          <td>Конкурентный анализ, мониторинг рынка, benchmarking</td>
+          <td>Ежеквартально</td>
+          <td>Аналитический отдел</td>
+        </tr>
+        <tr>
+          <td class="td-num">11</td>
+          <td><strong>СМИ, блогеры и инфлюенсеры</strong></td>
+          <td><span class="badge badge-green">+2</span></td>
+          <td><span class="badge badge-blue">2</span></td>
+          <td>Эксклюзивный контент, партнёрские условия, пресс-материалы</td>
+          <td>Пресс-релизы, PR-мероприятия, коллаборации, media kit</td>
+          <td>По событию</td>
+          <td>PR-менеджер</td>
+        </tr>
+        <tr>
+          <td class="td-num">12</td>
+          <td><strong>Банки и финансовые институты</strong></td>
+          <td><span class="badge badge-green">+2</span></td>
+          <td><span class="badge badge-yellow">3</span></td>
+          <td>Кредитные лимиты, эквайринг, рассрочка для покупателей</td>
+          <td>Переговоры, договоры о сотрудничестве, финансовые отчёты</td>
+          <td>Ежеквартально</td>
+          <td>CFO</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════ ДИАГРАММА ПРОЦЕССОВ ══════════ -->
+
+<section id="processes" style="background:white;">
+  <div class="section-header">
+    <div class="section-num">ЧАСТЬ 1.3</div>
+    <h2>Диаграмма процессов 1-го уровня</h2>
+  </div>
+
+  <div class="process-diagram">
+
+```
+<!-- УПРАВЛЯЮЩИЕ -->
+<div class="proc-section">
+  <div class="proc-label proc-label-mgmt">▲ УПРАВЛЯЮЩИЕ ПРОЦЕССЫ</div>
+  <div class="io-row">
+    <div class="io-box io-in">→ Вход: Стратегические цели, регуляторные требования, данные рынка</div>
+    <div class="io-box io-out">→ Выход: Планы, решения, политики, нормативы качества</div>
+  </div>
+  <div class="proc-row" style="margin-top:0.75rem;">
+    <div class="proc-box mgmt">
+      Стратегическое<br>планирование
+      <span class="proc-reg">ISO 9001 п. 6</span>
+    </div>
+    <div class="proc-arrow-label">
+      <div class="arr">→</div>
+      <div class="lbl">Стратегия, KPI</div>
+    </div>
+    <div class="proc-box mgmt">
+      Управление<br>качеством
+      <span class="proc-reg">ISO 9001 п. 8–9</span>
+    </div>
+    <div class="proc-arrow-label">
+      <div class="arr">→</div>
+      <div class="lbl">Стандарты, политики</div>
+    </div>
+    <div class="proc-box mgmt">
+      Финансовое<br>управление
+      <span class="proc-reg">ISO 9001 п. 7.1</span>
+    </div>
+    <div class="proc-arrow-label">
+      <div class="arr">→</div>
+      <div class="lbl">Бюджет, отчёты</div>
+    </div>
+    <div class="proc-box mgmt">
+      Управление<br>рисками
+      <span class="proc-reg">ISO 9001 п. 6.1</span>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ОСНОВНЫЕ -->
+<div class="proc-section">
+  <div class="proc-label proc-label-main">◆ ОСНОВНЫЕ ПРОЦЕССЫ (жизненный цикл продукта/услуги)</div>
+  <div class="io-row">
+    <div class="io-box io-in">→ Вход: Заявка продавца, запрос покупателя, товар, оплата</div>
+    <div class="io-box io-out">→ Выход: Доставленный товар, подтверждённая сделка, закрытый заказ</div>
+  </div>
+  <div class="proc-row" style="margin-top:0.75rem; flex-wrap:nowrap; overflow-x:auto;">
+    <div class="proc-box main">
+      Привлечение<br>и онбординг<br>продавцов
+      <span class="proc-io">Вход: заявка</span>
+      <span class="proc-reg">ISO 9001 п. 8.4</span>
+    </div>
+    <div class="proc-arrow-label">
+      <div class="arr">→</div>
+      <div class="lbl">Верифицирован-<br>ный продавец</div>
+    </div>
+    <div class="proc-box main">
+      Размещение<br>и модерация<br>товаров
+      <span class="proc-io">Вход: карточки товаров</span>
+      <span class="proc-reg">ISO 9001 п. 8.5</span>
+    </div>
+    <div class="proc-arrow-label">
+      <div class="arr">→</div>
+      <div class="lbl">Одобренные<br>листинги</div>
+    </div>
+    <div class="proc-box main">
+      Привлечение<br>покупателей<br>(маркетинг)
+      <span class="proc-io">Вход: трафик, бюджет</span>
+      <span class="proc-reg">ISO 9001 п. 8.2</span>
+    </div>
+    <div class="proc-arrow-label">
+      <div class="arr">→</div>
+      <div class="lbl">Сессии,<br>конверсии</div>
+    </div>
+    <div class="proc-box main">
+      Оформление<br>и обработка<br>заказа
+      <span class="proc-io">Вход: заказ + оплата</span>
+      <span class="proc-reg">ISO 9001 п. 8.5.1</span>
+    </div>
+    <div class="proc-arrow-label">
+      <div class="arr">→</div>
+      <div class="lbl">Задание<br>на склад</div>
+    </div>
+    <div class="proc-box main">
+      Логистика,<br>сборка<br>и доставка
+      <span class="proc-io">Вход: подтверждённый заказ</span>
+      <span class="proc-reg">ISO 9001 п. 8.5.4</span>
+    </div>
+    <div class="proc-arrow-label">
+      <div class="arr">→</div>
+      <div class="lbl">Товар<br>доставлен</div>
+    </div>
+    <div class="proc-box main">
+      Послепродажное<br>обслуживание<br>и возвраты
+      <span class="proc-io">Выход: закрытый заказ</span>
+      <span class="proc-reg">ISO 9001 п. 8.7</span>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ОБЕСПЕЧИВАЮЩИЕ -->
+<div class="proc-section" style="margin-bottom:0;">
+  <div class="proc-label proc-label-sup">▼ ОБЕСПЕЧИВАЮЩИЕ ПРОЦЕССЫ</div>
+  <div class="io-row">
+    <div class="io-box io-in">→ Вход: Потребности основных процессов, нормативы, бюджет</div>
+    <div class="io-box io-out">→ Выход: Ресурсы, инфраструктура, кадры, юридическое обеспечение</div>
+  </div>
+  <div class="proc-row" style="margin-top:0.75rem;">
+    <div class="proc-box sup">
+      Управление<br>персоналом (HR)
+      <span class="proc-reg">ISO 9001 п. 7.1.2</span>
+    </div>
+    <div class="proc-arrow-label">
+      <div class="arr">→</div>
+      <div class="lbl">Квалифицирован-<br>ные сотрудники</div>
+    </div>
+    <div class="proc-box sup">
+      IT-инфраструктура<br>и кибербезопасность
+      <span class="proc-reg">ISO 9001 п. 7.1.3</span>
+    </div>
+    <div class="proc-arrow-label">
+      <div class="arr">→</div>
+      <div class="lbl">Стабильная<br>платформа</div>
+    </div>
+    <div class="proc-box sup">
+      Юридическое<br>сопровождение
+      <span class="proc-reg">ISO 9001 п. 4.2</span>
+    </div>
+    <div class="proc-arrow-label">
+      <div class="arr">→</div>
+      <div class="lbl">Правовая<br>защита</div>
+    </div>
+    <div class="proc-box sup">
+      Управление<br>закупками
+      <span class="proc-reg">ISO 9001 п. 8.4</span>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ══════════ RACI ══════════ -->
+
+<section id="raci">
+  <div class="section-header">
+    <div class="section-num">ЧАСТЬ 1.4</div>
+    <h2>Матрица распределения ответственности и полномочий (RACI)</h2>
+  </div>
+
+  <div class="legend mb1">
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(255,107,53,0.5);"></div> <strong>R</strong> — Responsible (исполняет)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(239,71,111,0.5);"></div> <strong>A</strong> — Accountable (утверждает, несёт ответственность)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(0,180,216,0.4);"></div> <strong>C</strong> — Consulted (консультирует)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(6,214,160,0.4);"></div> <strong>I</strong> — Informed (информируется)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--border);"></div> <strong>—</strong> — Не участвует</div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Процесс / Задача</th>
+          <th>CEO</th>
+          <th>CCO (Коммерц.)</th>
+          <th>CTO</th>
+          <th>COO (Логист.)</th>
+          <th>CFO</th>
+          <th>CQO (Качество)</th>
+          <th>HR-директор</th>
+          <th>Юрист</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Стратегическое планирование</strong></td>
+          <td class="raci-a">A</td>
+          <td class="raci-c">C</td>
+          <td class="raci-c">C</td>
+          <td class="raci-c">C</td>
+          <td class="raci-r">R</td>
+          <td class="raci-c">C</td>
+          <td class="raci-i">I</td>
+          <td class="raci-i">I</td>
+        </tr>
+        <tr>
+          <td><strong>Привлечение и онбординг продавцов</strong></td>
+          <td class="raci-i">I</td>
+          <td class="raci-a">A</td>
+          <td class="raci-c">C</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-c">C</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-c">C</td>
+        </tr>
+        <tr>
+          <td><strong>Модерация товаров</strong></td>
+          <td class="raci-dash">—</td>
+          <td class="raci-a">A</td>
+          <td class="raci-c">C</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-r">R</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-c">C</td>
+        </tr>
+        <tr>
+          <td><strong>Обработка и оформление заказа</strong></td>
+          <td class="raci-i">I</td>
+          <td class="raci-a">A</td>
+          <td class="raci-c">C</td>
+          <td class="raci-r">R</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-c">C</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-dash">—</td>
+        </tr>
+        <tr>
+          <td><strong>Логистика и доставка</strong></td>
+          <td class="raci-i">I</td>
+          <td class="raci-c">C</td>
+          <td class="raci-c">C</td>
+          <td class="raci-a">A</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-i">I</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-dash">—</td>
+        </tr>
+        <tr>
+          <td><strong>IT-инфраструктура и безопасность</strong></td>
+          <td class="raci-a">A</td>
+          <td class="raci-i">I</td>
+          <td class="raci-r">R</td>
+          <td class="raci-i">I</td>
+          <td class="raci-c">C</td>
+          <td class="raci-c">C</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-dash">—</td>
+        </tr>
+        <tr>
+          <td><strong>Управление персоналом (HR)</strong></td>
+          <td class="raci-a">A</td>
+          <td class="raci-i">I</td>
+          <td class="raci-i">I</td>
+          <td class="raci-i">I</td>
+          <td class="raci-c">C</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-r">R</td>
+          <td class="raci-c">C</td>
+        </tr>
+        <tr>
+          <td><strong>Финансовое управление</strong></td>
+          <td class="raci-a">A</td>
+          <td class="raci-r">R</td>
+          <td class="raci-i">I</td>
+          <td class="raci-c">C</td>
+          <td class="raci-r">R</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-c">C</td>
+        </tr>
+        <tr>
+          <td><strong>Управление качеством</strong></td>
+          <td class="raci-a">A</td>
+          <td class="raci-c">C</td>
+          <td class="raci-c">C</td>
+          <td class="raci-c">C</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-r">R</td>
+          <td class="raci-c">C</td>
+          <td class="raci-dash">—</td>
+        </tr>
+        <tr>
+          <td><strong>Юридическое сопровождение</strong></td>
+          <td class="raci-a">A</td>
+          <td class="raci-i">I</td>
+          <td class="raci-i">I</td>
+          <td class="raci-i">I</td>
+          <td class="raci-c">C</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-r">R</td>
+        </tr>
+        <tr>
+          <td><strong>Послепродажное обслуживание / Возвраты</strong></td>
+          <td class="raci-i">I</td>
+          <td class="raci-a">A</td>
+          <td class="raci-c">C</td>
+          <td class="raci-r">R</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-c">C</td>
+          <td class="raci-dash">—</td>
+          <td class="raci-c">C</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════ РИСКИ ══════════ -->
+
+<section id="risks" style="background:white;">
+  <div class="section-header">
+    <div class="section-num">ЧАСТЬ 1.5</div>
+    <h2>Матрица управления рисками процесса</h2>
+  </div>
+
+  <div class="legend mb1">
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(239,71,111,0.4);"></div> Высокий риск</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(255,209,102,0.5);"></div> Средний риск</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(6,214,160,0.3);"></div> Низкий риск</div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Наименование риска</th>
+          <th>Вероятность возникновения</th>
+          <th>Следствия риска</th>
+          <th>Серьёзность вреда</th>
+          <th>Управление риском</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="risk-high">
+          <td class="td-num">01</td>
+          <td><strong>Кибератака и утечка персональных данных</strong></td>
+          <td><span class="badge badge-yellow">Средняя</span></td>
+          <td>Потеря доверия пользователей, штрафы по 152-ФЗ, отток клиентов</td>
+          <td><span class="badge badge-red">Высокая</span></td>
+          <td>Регулярный пентестинг, шифрование данных (AES-256), страхование киберрисков, DLP-система</td>
+        </tr>
+        <tr class="risk-high">
+          <td class="td-num">02</td>
+          <td><strong>Мошенничество со стороны продавцов (фрод)</strong></td>
+          <td><span class="badge badge-orange">Высокая</span></td>
+          <td>Репутационный ущерб, финансовые потери, жалобы покупателей</td>
+          <td><span class="badge badge-red">Высокая</span></td>
+          <td>Многоуровневая верификация продавцов, AI-мониторинг подозрительной активности, система рейтингов</td>
+        </tr>
+        <tr class="risk-high">
+          <td class="td-num">03</td>
+          <td><strong>Сбой платёжной инфраструктуры</strong></td>
+          <td><span class="badge badge-green">Низкая</span></td>
+          <td>Потеря выручки в период сбоя, недовольство клиентов, судебные претензии</td>
+          <td><span class="badge badge-red">Высокая</span></td>
+          <td>Резервные платёжные шлюзы, SLA ≥ 99.9%, автоматическое переключение при сбое</td>
+        </tr>
+        <tr class="risk-med">
+          <td class="td-num">04</td>
+          <td><strong>Задержки и нарушения сроков доставки</strong></td>
+          <td><span class="badge badge-orange">Высокая</span></td>
+          <td>Снижение NPS, рост возвратов, отток покупателей к конкурентам</td>
+          <td><span class="badge badge-yellow">Средняя</span></td>
+          <td>Диверсификация логистических партнёров (≥3), SLA по срокам, система трекинга в реальном времени</td>
+        </tr>
+        <tr class="risk-high">
+          <td class="td-num">05</td>
+          <td><strong>Изменение законодательства (регуляторный риск)</strong></td>
+          <td><span class="badge badge-yellow">Средняя</span></td>
+          <td>Штрафы, перестройка бизнес-процессов, вынужденная приостановка операций</td>
+          <td><span class="badge badge-red">Высокая</span></td>
+          <td>Непрерывный мониторинг нормативной базы, штатный юридический отдел, участие в отраслевых ассоциациях</td>
+        </tr>
+        <tr class="risk-med">
+          <td class="td-num">06</td>
+          <td><strong>Массовый уход ключевых продавцов на конкурирующие площадки</strong></td>
+          <td><span class="badge badge-yellow">Средняя</span></td>
+          <td>Сокращение ассортимента, снижение GMV, отток покупателей</td>
+          <td><span class="badge badge-red">Высокая</span></td>
+          <td>Программа лояльности для продавцов, сниженные комиссии при росте оборота, персональные аккаунт-менеджеры</td>
+        </tr>
+        <tr class="risk-high">
+          <td class="td-num">07</td>
+          <td><strong>DDoS-атака, недоступность платформы</strong></td>
+          <td><span class="badge badge-green">Низкая</span></td>
+          <td>Недоступность сервиса, потеря заказов, репутационный ущерб</td>
+          <td><span class="badge badge-red">Высокая</span></td>
+          <td>CDN + Anti-DDoS защита (Cloudflare/Qrator), геораспределённая инфраструктура, план восстановления DR</td>
+        </tr>
+        <tr class="risk-med">
+          <td class="td-num">08</td>
+          <td><strong>Ценовой демпинг и нарушения ценообразования</strong></td>
+          <td><span class="badge badge-yellow">Средняя</span></td>
+          <td>Потеря маржи, недовольство добросовестных продавцов, снижение доверия к платформе</td>
+          <td><span class="badge badge-yellow">Средняя</span></td>
+          <td>Алгоритмы мониторинга цен, блокировка ценового демпинга, предупреждения продавцам</td>
+        </tr>
+        <tr class="risk-med">
+          <td class="td-num">09</td>
+          <td><strong>Высокий процент возвратов товаров</strong></td>
+          <td><span class="badge badge-orange">Высокая</span></td>
+          <td>Рост операционных издержек, нагрузка на логистику, недовольство продавцов</td>
+          <td><span class="badge badge-yellow">Средняя</span></td>
+          <td>Стандарты качества описания товаров, обязательные фото 360°, AI-верификация соответствия товара описанию</td>
+        </tr>
+        <tr class="risk-med">
+          <td class="td-num">10</td>
+          <td><strong>Высокая текучесть ключевых IT-специалистов</strong></td>
+          <td><span class="badge badge-yellow">Средняя</span></td>
+          <td>Потеря компетенций, задержка разработки, рост затрат на найм</td>
+          <td><span class="badge badge-yellow">Средняя</span></td>
+          <td>Конкурентная оплата труда, карьерные треки, опционные программы, гибридный формат работы</td>
+        </tr>
+        <tr class="risk-med">
+          <td class="td-num">11</td>
+          <td><strong>Негативный вирусный контент / репутационный кризис</strong></td>
+          <td><span class="badge badge-yellow">Средняя</span></td>
+          <td>Отток пользователей, снижение NPS, сложность привлечения новых продавцов</td>
+          <td><span class="badge badge-yellow">Средняя</span></td>
+          <td>Антикризисный PR-план, мониторинг соцсетей (Brand Analytics), быстрое реагирование ≤ 4 часов</td>
+        </tr>
+        <tr class="risk-low">
+          <td class="td-num">12</td>
+          <td><strong>Сбой IT-подрядчиков / зависимость от внешних сервисов</strong></td>
+          <td><span class="badge badge-green">Низкая</span></td>
+          <td>Остановка отдельных бизнес-процессов, ручной режим работы</td>
+          <td><span class="badge badge-yellow">Средняя</span></td>
+          <td>Диверсификация поставщиков, SLA с penalty-clauses, собственные резервные мощности</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════ ЧАСТЬ 2: КАРТА ПРОЦЕССА ══════════ -->
+
+<section id="pmap">
+  <div class="section-header">
+    <div class="section-num">ЧАСТЬ 2 — ИНДИВИДУАЛЬНАЯ</div>
+    <h2>Карта процесса: «Оформление и обработка заказа»</h2>
+  </div>
+
+  <p class="text-muted mb2">Основной процесс жизненного цикла. Входит в блок «Основные процессы» диаграммы 1-го уровня.</p>
+
+  <div class="card" style="padding:0; overflow:hidden; border-radius:12px; border:1px solid var(--border);">
+    <div style="background:var(--navy); color:white; padding:1rem 1.5rem;">
+      <strong style="font-size:1.05rem;">Карта процесса — Оформление и обработка заказа</strong>
+    </div>
+    <div class="pmap-grid">
+      <div class="pmap-cell">
+        <div class="pmap-key">Название процесса</div>
+        <div class="pmap-val">Оформление и обработка заказа на маркетплейсе MarketHub</div>
+      </div>
+      <div class="pmap-cell">
+        <div class="pmap-key">Цель процесса</div>
+        <div class="pmap-val">Обеспечить быструю (≤15 мин), безошибочную обработку заказов покупателей с передачей подтверждённого задания на склад</div>
+      </div>
+      <div class="pmap-cell">
+        <div class="pmap-key">Входы</div>
+        <div class="pmap-val">
+          • Оформленный заказ покупателя<br>
+          • Подтверждение оплаты от платёжной системы<br>
+          • Данные о наличии товара на складе<br>
+          • Адрес доставки покупателя
+        </div>
+      </div>
+      <div class="pmap-cell">
+        <div class="pmap-key">Требования к входам</div>
+        <div class="pmap-val">
+          • Корректность и полнота данных покупателя<br>
+          • Успешно проведённая транзакция оплаты<br>
+          • Актуальные остатки товаров на складе<br>
+          • Адрес в зоне покрытия доставки
+        </div>
+      </div>
+      <div class="pmap-cell">
+        <div class="pmap-key">Поставщики (входов)</div>
+        <div class="pmap-val">
+          • Покупатель (заказ, адрес)<br>
+          • Платёжная система (подтверждение оплаты)<br>
+          • Склад / WMS-система (остатки)<br>
+          • CRM-система (данные профиля)
+        </div>
+      </div>
+      <div class="pmap-cell">
+        <div class="pmap-key">Выходы</div>
+        <div class="pmap-val">
+          • Подтверждённый заказ в системе<br>
+          • Задание на сборку для склада<br>
+          • Уведомление покупателю (SMS/Push)<br>
+          • Резервирование товара на складе<br>
+          • Передача в процесс логистики и доставки
+        </div>
+      </div>
+      <div class="pmap-cell">
+        <div class="pmap-key">Требования к выходам</div>
+        <div class="pmap-val">
+          • Точность данных заказа: 100%<br>
+          • Время обработки: ≤ 15 минут<br>
+          • Уведомление покупателю: ≤ 5 минут после оформления<br>
+          • Отсутствие дублирования заказов
+        </div>
+      </div>
+      <div class="pmap-cell">
+        <div class="pmap-key">Потребители (выходов)</div>
+        <div class="pmap-val">
+          • Складской отдел (задание на сборку)<br>
+          • Покупатель (уведомление)<br>
+          • Процесс логистики (передача заказа)<br>
+          • Аналитический отдел (данные о заказах)
+        </div>
+      </div>
+      <div class="pmap-cell">
+        <div class="pmap-key">Критерии оценки процесса</div>
+        <div class="pmap-val">
+          • Среднее время обработки заказа (Target: ≤ 15 мин)<br>
+          • Процент ошибочно обработанных заказов (Target: ≤ 0.1%)<br>
+          • NPS покупателей по этапу оформления (Target: ≥ 70)<br>
+          • % заказов, переданных в логистику вовремя (Target: ≥ 99%)
+        </div>
+      </div>
+      <div class="pmap-cell">
+        <div class="pmap-key">Нормативная документация</div>
+        <div class="pmap-val">
+          • ISO 9001:2015 п. 8.5.1 — Управление производством и предоставлением услуг<br>
+          • Внутренний регламент обработки заказов (РП-003)<br>
+          • SLA с платёжными системами и складскими операторами<br>
+          • Политика защиты персональных данных (152-ФЗ)
+        </div>
+      </div>
+      <div class="pmap-cell">
+        <div class="pmap-key">Владелец процесса</div>
+        <div class="pmap-val">Коммерческий директор (CCO)</div>
+      </div>
+      <div class="pmap-cell">
+        <div class="pmap-key">Руководитель / Исполнитель</div>
+        <div class="pmap-val">Менеджер по операциям / Операционный отдел</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ АЛГОРИТМ ПРОЦЕССА ══════════ -->
+
+<section id="flow" style="background:white;">
+  <div class="section-header">
+    <div class="section-num">ЧАСТЬ 2 — АЛГОРИТМ</div>
+    <h2>Алгоритм процесса «Оформление и обработка заказа»</h2>
+  </div>
+  <p class="text-muted mb2">Нотация: упрощённая BPMN-подобная. 10 этапов, 3 шлюза (ромбы). ◆ — шлюз принятия решения.</p>
+
+  <div class="flowchart-wrap">
+    <svg class="flow" viewBox="0 0 820 1180" width="820" height="1180" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#5A7082"/>
+        </marker>
+        <marker id="arr-red" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#EF476F"/>
+        </marker>
+        <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+          <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.08)"/>
+        </filter>
+      </defs>
+
+```
+  <!-- ─── Стиль текста ─── -->
+  <style>
+    .flow-label { font-family:'IBM Plex Sans',sans-serif; font-size:12px; fill:#1A2332; font-weight:500; }
+    .flow-sub { font-family:'IBM Plex Sans',sans-serif; font-size:10px; fill:#5A7082; }
+    .flow-gate-label { font-family:'IBM Plex Sans',sans-serif; font-size:10px; fill:#1A2332; font-weight:600; }
+    .flow-yn { font-family:'IBM Plex Sans',sans-serif; font-size:10px; fill:#5A7082; }
+  </style>
+
+  <!-- ─── СТАРТ ─── -->
+  <ellipse cx="410" cy="40" rx="70" ry="24" fill="#0D1B2A" filter="url(#shadow)"/>
+  <text x="410" y="44" text-anchor="middle" class="flow-label" fill="white">СТАРТ</text>
+  <text x="410" y="56" text-anchor="middle" class="flow-sub" fill="rgba(255,255,255,0.6)">Покупатель нажимает «Оформить»</text>
+
+  <!-- Стрелка 1 -->
+  <line x1="410" y1="64" x2="410" y2="94" stroke="#5A7082" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ─── Блок 1: Получение заказа ─── -->
+  <rect x="270" y="95" width="280" height="60" rx="8" fill="white" stroke="#D6E4EF" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="270" y="95" width="6" height="60" rx="3" fill="#0D1B2A"/>
+  <text x="290" y="120" class="flow-label">1. Получение и регистрация заказа</text>
+  <text x="290" y="137" class="flow-sub">Система фиксирует заказ, присваивает ID</text>
+
+  <line x1="410" y1="155" x2="410" y2="185" stroke="#5A7082" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ─── Блок 2: Проверка данных ─── -->
+  <rect x="270" y="186" width="280" height="60" rx="8" fill="white" stroke="#D6E4EF" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="270" y="186" width="6" height="60" rx="3" fill="#0D1B2A"/>
+  <text x="290" y="211" class="flow-label">2. Проверка корректности данных</text>
+  <text x="290" y="228" class="flow-sub">Валидация адреса, контактов покупателя</text>
+
+  <line x1="410" y1="246" x2="410" y2="278" stroke="#5A7082" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ─── ШЛЮЗ 1: Данные корректны? ─── -->
+  <polygon points="410,280 480,310 410,340 340,310" fill="#FFF8E1" stroke="#FFD166" stroke-width="2" filter="url(#shadow)"/>
+  <text x="410" y="306" text-anchor="middle" class="flow-gate-label">Данные</text>
+  <text x="410" y="320" text-anchor="middle" class="flow-gate-label">корректны?</text>
+
+  <!-- ДА → вниз -->
+  <line x1="410" y1="340" x2="410" y2="370" stroke="#5A7082" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="416" y="358" class="flow-yn">Да</text>
+
+  <!-- НЕТ → вправо → запрос покупателю -->
+  <line x1="480" y1="310" x2="700" y2="310" stroke="#EF476F" stroke-width="1.5" marker-end="url(#arr-red)"/>
+  <text x="540" y="305" class="flow-yn" fill="#EF476F">Нет</text>
+  <rect x="700" y="285" width="100" height="50" rx="6" fill="#FFF0F3" stroke="#EF476F" stroke-width="1.5"/>
+  <text x="750" y="308" text-anchor="middle" class="flow-sub" fill="#c73660">Запрос</text>
+  <text x="750" y="322" text-anchor="middle" class="flow-sub" fill="#c73660">покупателю</text>
+  <!-- Возврат к блоку 2 -->
+  <line x1="750" y1="285" x2="750" y2="216" stroke="#EF476F" stroke-width="1.5" stroke-dasharray="4"/>
+  <line x1="750" y1="216" x2="550" y2="216" stroke="#EF476F" stroke-width="1.5" stroke-dasharray="4" marker-end="url(#arr-red)"/>
+
+  <!-- ─── Блок 3: Проверка наличия товара ─── -->
+  <rect x="270" y="371" width="280" height="60" rx="8" fill="white" stroke="#D6E4EF" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="270" y="371" width="6" height="60" rx="3" fill="#00B4D8"/>
+  <text x="290" y="396" class="flow-label">3. Проверка наличия товара</text>
+  <text x="290" y="413" class="flow-sub">Запрос к WMS: остатки на складе</text>
+
+  <line x1="410" y1="431" x2="410" y2="463" stroke="#5A7082" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ─── ШЛЮЗ 2: Товар в наличии? ─── -->
+  <polygon points="410,465 480,495 410,525 340,495" fill="#FFF8E1" stroke="#FFD166" stroke-width="2" filter="url(#shadow)"/>
+  <text x="410" y="491" text-anchor="middle" class="flow-gate-label">Товар</text>
+  <text x="410" y="505" text-anchor="middle" class="flow-gate-label">в наличии?</text>
+
+  <!-- ДА → вниз -->
+  <line x1="410" y1="525" x2="410" y2="555" stroke="#5A7082" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="416" y="543" class="flow-yn">Да</text>
+
+  <!-- НЕТ → вправо → уведомление -->
+  <line x1="480" y1="495" x2="700" y2="495" stroke="#EF476F" stroke-width="1.5" marker-end="url(#arr-red)"/>
+  <text x="540" y="490" class="flow-yn" fill="#EF476F">Нет</text>
+  <rect x="700" y="470" width="100" height="50" rx="6" fill="#FFF0F3" stroke="#EF476F" stroke-width="1.5"/>
+  <text x="750" y="493" text-anchor="middle" class="flow-sub" fill="#c73660">Уведомление</text>
+  <text x="750" y="507" text-anchor="middle" class="flow-sub" fill="#c73660">об отсутствии</text>
+  <!-- → КОНЕЦ (ошибка) -->
+  <line x1="750" y1="520" x2="750" y2="550" stroke="#EF476F" stroke-width="1.5" marker-end="url(#arr-red)"/>
+  <ellipse cx="750" cy="568" rx="45" ry="18" fill="#EF476F"/>
+  <text x="750" y="572" text-anchor="middle" class="flow-label" fill="white" font-size="10">Отмена заказа</text>
+
+  <!-- ─── Блок 4: Проверка и подтверждение оплаты ─── -->
+  <rect x="270" y="556" width="280" height="60" rx="8" fill="white" stroke="#D6E4EF" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="270" y="556" width="6" height="60" rx="3" fill="#00B4D8"/>
+  <text x="290" y="581" class="flow-label">4. Подтверждение оплаты</text>
+  <text x="290" y="598" class="flow-sub">Запрос к платёжному шлюзу, проверка статуса</text>
+
+  <line x1="410" y1="616" x2="410" y2="648" stroke="#5A7082" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ─── ШЛЮЗ 3: Оплата прошла? ─── -->
+  <polygon points="410,650 480,680 410,710 340,680" fill="#FFF8E1" stroke="#FFD166" stroke-width="2" filter="url(#shadow)"/>
+  <text x="410" y="676" text-anchor="middle" class="flow-gate-label">Оплата</text>
+  <text x="410" y="690" text-anchor="middle" class="flow-gate-label">подтверждена?</text>
+
+  <!-- ДА → вниз -->
+  <line x1="410" y1="710" x2="410" y2="740" stroke="#5A7082" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="416" y="728" class="flow-yn">Да</text>
+
+  <!-- НЕТ → вправо -->
+  <line x1="480" y1="680" x2="700" y2="680" stroke="#EF476F" stroke-width="1.5" marker-end="url(#arr-red)"/>
+  <text x="540" y="675" class="flow-yn" fill="#EF476F">Нет</text>
+  <rect x="700" y="655" width="100" height="50" rx="6" fill="#FFF0F3" stroke="#EF476F" stroke-width="1.5"/>
+  <text x="750" y="678" text-anchor="middle" class="flow-sub" fill="#c73660">Ожидание /</text>
+  <text x="750" y="692" text-anchor="middle" class="flow-sub" fill="#c73660">повторный запрос</text>
+  <!-- Возврат к блоку 4 -->
+  <line x1="750" y1="655" x2="750" y2="586" stroke="#EF476F" stroke-width="1.5" stroke-dasharray="4"/>
+  <line x1="750" y1="586" x2="550" y2="586" stroke="#EF476F" stroke-width="1.5" stroke-dasharray="4" marker-end="url(#arr-red)"/>
+
+  <!-- ─── Блок 5: Резервирование товара ─── -->
+  <rect x="270" y="741" width="280" height="60" rx="8" fill="white" stroke="#D6E4EF" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="270" y="741" width="6" height="60" rx="3" fill="#06D6A0"/>
+  <text x="290" y="766" class="flow-label">5. Резервирование товара на складе</text>
+  <text x="290" y="783" class="flow-sub">WMS блокирует единицу товара под заказ</text>
+
+  <line x1="410" y1="801" x2="410" y2="831" stroke="#5A7082" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ─── Блок 6: Уведомление покупателя ─── -->
+  <rect x="270" y="832" width="280" height="60" rx="8" fill="white" stroke="#D6E4EF" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="270" y="832" width="6" height="60" rx="3" fill="#06D6A0"/>
+  <text x="290" y="857" class="flow-label">6. Уведомление покупателя</text>
+  <text x="290" y="874" class="flow-sub">SMS / Push / Email: заказ принят, срок доставки</text>
+
+  <line x1="410" y1="892" x2="410" y2="922" stroke="#5A7082" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ─── Блок 7: Формирование задания на склад ─── -->
+  <rect x="270" y="923" width="280" height="60" rx="8" fill="white" stroke="#D6E4EF" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="270" y="923" width="6" height="60" rx="3" fill="#FF6B35"/>
+  <text x="290" y="948" class="flow-label">7. Формирование задания на сборку</text>
+  <text x="290" y="965" class="flow-sub">Печать комплектовочного листа, штрих-кода</text>
+
+  <line x1="410" y1="983" x2="410" y2="1013" stroke="#5A7082" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ─── Блок 8: Передача в логистику ─── -->
+  <rect x="270" y="1014" width="280" height="60" rx="8" fill="white" stroke="#D6E4EF" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="270" y="1014" width="6" height="60" rx="3" fill="#FF6B35"/>
+  <text x="290" y="1039" class="flow-label">8. Передача заказа в процесс логистики</text>
+  <text x="290" y="1056" class="flow-sub">Интеграция с WMS → процесс доставки</text>
+
+  <line x1="410" y1="1074" x2="410" y2="1104" stroke="#5A7082" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ─── Блок 9: Закрытие заказа в системе ─── -->
+  <rect x="270" y="1105" width="280" height="50" rx="8" fill="white" stroke="#D6E4EF" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="270" y="1105" width="6" height="50" rx="3" fill="#0D1B2A"/>
+  <text x="290" y="1130" class="flow-label">9. Закрытие записи об обработке заказа</text>
+  <text x="290" y="1145" class="flow-sub">Статус → «Передан на сборку», лог в системе</text>
+
+  <line x1="410" y1="1155" x2="410" y2="1170" stroke="#5A7082" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ─── ФИНИШ ─── -->
+  <ellipse cx="410" cy="1175" rx="70" ry="20" fill="#06D6A0" filter="url(#shadow)"/>
+  <text x="410" y="1178" text-anchor="middle" class="flow-label" fill="white">ФИНИШ</text>
+  <text x="410" y="1190" text-anchor="middle" class="flow-sub" fill="rgba(255,255,255,0.8)">Заказ в обработке</text>
+
+  <!-- ЛЕГЕНДА шлюзов -->
+  <rect x="30" y="300" width="190" height="90" rx="6" fill="white" stroke="#D6E4EF"/>
+  <text x="42" y="318" class="flow-sub" font-weight="600" fill="#1A2332">ЛЕГЕНДА</text>
+  <polygon points="42,335 52,340 42,345 32,340" fill="#FFF8E1" stroke="#FFD166" stroke-width="1.5"/>
+  <text x="60" y="344" class="flow-sub">Шлюз (решение)</text>
+  <rect x="32" y="352" width="20" height="14" rx="3" fill="white" stroke="#D6E4EF" stroke-width="1.5"/>
+  <text x="60" y="363" class="flow-sub">Процесс / Задача</text>
+  <rect x="32" y="370" width="20" height="14" rx="3" fill="#FFF0F3" stroke="#EF476F" stroke-width="1.5"/>
+  <text x="60" y="381" class="flow-sub">Исключительный путь</text>
+</svg>
+```
+
+  </div>
+</section>
+
+<!-- ══════════ ISO 9001 ══════════ -->
+
+<section id="iso">
+  <div class="section-header">
+    <div class="section-num">ЧАСТЬ 2 — ISO 9001</div>
+    <h2>Требования ISO 9001:2015 по процессу «Обработка заказа»</h2>
+  </div>
+
+  <p class="text-muted mb2">Основной раздел: <strong>п. 8.5 — Производство и предоставление услуг.</strong> Ниже — все применимые пункты стандарта с указанием необходимой документации.</p>
+
+  <div class="iso-grid">
+    <div class="iso-card">
+      <div class="iso-num">8.5.1</div>
+      <h3>Управление производством и предоставлением услуг</h3>
+      <p class="text-muted" style="margin-bottom:0.75rem;">Организация должна осуществлять производство и предоставление услуг в управляемых условиях.</p>
+      <p style="font-size:0.83rem; line-height:1.6;"><strong>Применение к маркетплейсу:</strong> регламентированная процедура обработки заказов, доступность актуальных инструкций для операционного персонала, мониторинг производительности в режиме реального времени.</p>
+      <div style="margin-top:1rem; padding:0.6rem 0.9rem; background:#F8FAFC; border-radius:6px; font-size:0.78rem;">
+        <strong>📄 Документация:</strong> Регламент обработки заказов (РП-003), рабочие инструкции оператора, SLA-карта
+      </div>
+    </div>
+
+```
+<div class="iso-card">
+  <div class="iso-num">8.5.3</div>
+  <h3>Идентификация и прослеживаемость</h3>
+  <p class="text-muted" style="margin-bottom:0.75rem;">Организация должна использовать подходящие средства идентификации для определения статуса выходов.</p>
+  <p style="font-size:0.83rem; line-height:1.6;"><strong>Применение:</strong> каждый заказ получает уникальный ID, статус отслеживается на каждом этапе (принят → оплачен → в сборке → передан → доставлен). Полный лог в системе.</p>
+  <div style="margin-top:1rem; padding:0.6rem 0.9rem; background:#F8FAFC; border-radius:6px; font-size:0.78rem;">
+    <strong>📄 Документация:</strong> Журнал заказов в OMS/WMS, записи о статусах, отчёты по трекингу
+  </div>
+</div>
+
+<div class="iso-card">
+  <div class="iso-num">8.2.2</div>
+  <h3>Определение требований к продуктам и услугам</h3>
+  <p class="text-muted" style="margin-bottom:0.75rem;">Организация должна определять требования, предъявляемые потребителем.</p>
+  <p style="font-size:0.83rem; line-height:1.6;"><strong>Применение:</strong> фиксация требований покупателя при оформлении заказа: адрес, срок, способ доставки, упаковка. Проверка выполнимости до подтверждения.</p>
+  <div style="margin-top:1rem; padding:0.6rem 0.9rem; background:#F8FAFC; border-radius:6px; font-size:0.78rem;">
+    <strong>📄 Документация:</strong> Форма заказа, условия пользовательского соглашения, политика возвратов
+  </div>
+</div>
+
+<div class="iso-card">
+  <div class="iso-num">8.4</div>
+  <h3>Управление внешне предоставляемыми процессами</h3>
+  <p class="text-muted" style="margin-bottom:0.75rem;">Организация должна обеспечивать соответствие внешне предоставляемых процессов, продуктов и услуг.</p>
+  <p style="font-size:0.83rem; line-height:1.6;"><strong>Применение:</strong> контроль платёжных систем и складских операторов как внешних поставщиков. SLA, аудиты, квалификация поставщиков.</p>
+  <div style="margin-top:1rem; padding:0.6rem 0.9rem; background:#F8FAFC; border-radius:6px; font-size:0.78rem;">
+    <strong>📄 Документация:</strong> Договоры SLA, реестр поставщиков, чек-листы оценки поставщиков
+  </div>
+</div>
+
+<div class="iso-card">
+  <div class="iso-num">9.1.2</div>
+  <h3>Удовлетворённость потребителей</h3>
+  <p class="text-muted" style="margin-bottom:0.75rem;">Организация должна проводить мониторинг восприятия потребителями степени удовлетворения их потребностей.</p>
+  <p style="font-size:0.83rem; line-height:1.6;"><strong>Применение:</strong> сбор оценок после каждого заказа, анализ NPS, работа с жалобами по этапу оформления, ежемесячные отчёты.</p>
+  <div style="margin-top:1rem; padding:0.6rem 0.9rem; background:#F8FAFC; border-radius:6px; font-size:0.78rem;">
+    <strong>📄 Документация:</strong> Отчёты NPS, журнал обращений, аналитика платформы (дашборд)
+  </div>
+</div>
+
+<div class="iso-card">
+  <div class="iso-num">8.7</div>
+  <h3>Управление несоответствующими выходами</h3>
+  <p class="text-muted" style="margin-bottom:0.75rem;">Организация должна обеспечивать идентификацию и управление выходами, не соответствующими требованиям.</p>
+  <p style="font-size:0.83rem; line-height:1.6;"><strong>Применение:</strong> процедура обработки ошибочных/дублирующих заказов, политика возвратов, расследование инцидентов обработки, корректирующие действия.</p>
+  <div style="margin-top:1rem; padding:0.6rem 0.9rem; background:#F8FAFC; border-radius:6px; font-size:0.78rem;">
+    <strong>📄 Документация:</strong> Протоколы несоответствий, акты возврата, реестр корректирующих действий (КД)
+  </div>
+</div>
+```
+
+  </div>
+
+  <div class="card card-accent mt2">
+    <h3>Сводная таблица: документация ISO 9001 по процессу</h3>
+    <div class="table-wrap" style="margin-top:1rem; box-shadow:none; border:none;">
+      <table>
+        <thead>
+          <tr>
+            <th>Пункт ISO 9001:2015</th>
+            <th>Наименование</th>
+            <th>Обязательная документация</th>
+            <th>Наличие в MarketHub</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-num">8.5.1</td>
+            <td>Управление предоставлением услуг</td>
+            <td>Рабочие инструкции, регламенты</td>
+            <td><span class="badge badge-green">✓ Есть</span></td>
+          </tr>
+          <tr>
+            <td class="td-num">8.5.3</td>
+            <td>Идентификация и прослеживаемость</td>
+            <td>Журнал заказов, записи статусов</td>
+            <td><span class="badge badge-green">✓ Есть</span></td>
+          </tr>
+          <tr>
+            <td class="td-num">8.2.2</td>
+            <td>Требования к услугам</td>
+            <td>Форма заказа, пользовательское соглашение</td>
+            <td><span class="badge badge-green">✓ Есть</span></td>
+          </tr>
+          <tr>
+            <td class="td-num">8.4</td>
+            <td>Управление внешними поставщиками</td>
+            <td>SLA, реестр поставщиков</td>
+            <td><span class="badge badge-green">✓ Есть</span></td>
+          </tr>
+          <tr>
+            <td class="td-num">9.1.2</td>
+            <td>Удовлетворённость потребителей</td>
+            <td>Отчёты NPS, журнал обращений</td>
+            <td><span class="badge badge-green">✓ Есть</span></td>
+          </tr>
+          <tr>
+            <td class="td-num">8.7</td>
+            <td>Управление несоответствиями</td>
+            <td>Протоколы несоответствий, реестр КД</td>
+            <td><span class="badge badge-yellow">В разработке</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+
+<footer style="background:var(--navy); color:rgba(255,255,255,0.5); text-align:center; padding:2rem; font-size:0.78rem;">
+  MarketHub · Управление качеством и конкурентоспособностью · Контрольная точка 2 · 2025
+</footer>
+
+</main>
+
+<script>
+  // Active nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+
+  // Smooth scroll
+  navLinks.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
